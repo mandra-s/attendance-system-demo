@@ -1,0 +1,135 @@
+/* === Gaya Umum === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-image: url('../assets/image_a3f143.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #F9FAFB;
+  min-height: 100vh;
+}
+
+/* === Logo ITENAS === */
+.itenas-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 120px;
+  height: auto;
+  z-index: 100;
+  background-color: rgba(255,255,255,0.8);
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* === Kontainer Video === */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: #000;
+}
+
+.video-container video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* === Efek Tombol & Transisi === */
+button {
+  transition: all 0.3s ease;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* === Status Kamera === */
+#registrationCameraStatus, #attendanceCameraStatus {
+  transition: all 0.3s ease;
+}
+
+/* === Animasi Detak Cahaya Statistik === */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
+  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+}
+
+/* === Status Absensi === */
+.status-hadir {
+  background-color: rgba(18,89,65,0.1);
+  border-left: 4px solid #06b77c;
+}
+.status-terlambat {
+  background-color: rgba(255,165,0,0.1);
+  border-left: 4px solid #FFA500;
+}
+.status-tidak-dikenali {
+  background-color: rgba(107,114,128,0.1);
+  border-left: 4px solid #6b7280;
+}
+.status-sudah-absen {
+  background-color: rgba(255,215,0,0.1);
+  border-left: 4px solid #FFD700;
+}
+.status-belum-dimulai {
+  background-color: rgba(100,100,255,0.1);
+  border-left: 4px solid #6464FF;
+}
+
+/* === Halaman Aktif/Nonaktif === */
+.page-section {
+  display: none;
+  background-color: rgba(255,255,255,0.9);
+}
+.page-section.active {
+  display: block;
+}
+
+/* === Kartu Absensi === */
+.attendance-card {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.attendance-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* === Scroll list mahasiswa === */
+#registeredFacesList {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+#registeredFacesList::-webkit-scrollbar {
+  width: 8px;
+}
+#registeredFacesList::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 8px;
+}
+#registeredFacesList::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
