@@ -11,14 +11,12 @@ const settingsSection = document.getElementById("settingsSection");
 
 // Kamera Pendaftaran
 const videoRegistration = document.getElementById("videoRegistration");
-const canvasRegistration = document.getElementById("canvasRegistration");
 const startRegistrationCameraBtn = document.getElementById("startRegistrationCameraBtn");
 const stopRegistrationCameraBtn = document.getElementById("stopRegistrationCameraBtn");
 const registrationCameraStatus = document.getElementById("registrationCameraStatus");
 
 // Kamera Absensi
 const videoAttendance = document.getElementById("videoAttendance");
-const canvasAttendance = document.getElementById("canvasAttendance");
 const startAttendanceCameraBtn = document.getElementById("startAttendanceCameraBtn");
 const stopAttendanceCameraBtn = document.getElementById("stopAttendanceCameraBtn");
 const attendanceCameraStatus = document.getElementById("attendanceCameraStatus");
@@ -28,16 +26,12 @@ const nameInput = document.getElementById("nameInput");
 const nimInput = document.getElementById("nimInput");
 const captureFaceBtn = document.getElementById("captureFaceBtn");
 const saveStudentBtn = document.getElementById("saveStudentBtn");
-const clearCaptureBtn = document.getElementById("clearCaptureBtn");
 const registeredFacesList = document.getElementById("registeredFacesList");
 const registeredFacesCount = document.getElementById("registeredFacesCount");
 const capturedFaceCount = document.getElementById("capturedFaceCount");
 
 // Statistik Absensi
-const totalPresent = document.getElementById("totalPresent");
-const registeredStudentsDisplay = document.getElementById("registeredStudentsDisplay");
 const attendanceRecords = document.getElementById("attendanceRecords");
-const attendanceCount = document.getElementById("attendanceCount");
 const saveBtn = document.getElementById("saveBtn");
 
 // Model AI
@@ -48,7 +42,9 @@ const modelLoadProgress = document.getElementById("modelLoadProgress");
 // Navigasi Antar Halaman
 // ============================
 function setActiveSection(section) {
-  [registrationSection, attendanceSection, settingsSection].forEach((s) => s.classList.remove("active"));
+  [registrationSection, attendanceSection, settingsSection].forEach((s) =>
+    s.classList.remove("active")
+  );
   section.classList.add("active");
 }
 
@@ -71,8 +67,9 @@ async function startCamera(videoElement, statusElement) {
     statusElement.innerHTML = `<div class='inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700'>
       <span class='w-3 h-3 rounded-full bg-green-500 mr-2'></span> Kamera aktif
     </div>`;
+    showPopup("Kamera Aktif", "Kamera berhasil dinyalakan.", "green");
   } catch (err) {
-    statusElement.textContent = "Tidak dapat mengakses kamera: " + err.message;
+    showPopup("Gagal", "Tidak dapat mengakses kamera.", "red");
   }
 }
 
@@ -84,15 +81,22 @@ function stopCamera(videoElement, statusElement, streamRef) {
   statusElement.innerHTML = `<div class='inline-flex items-center px-4 py-2 rounded-full bg-gray-100'>
     <span class='w-3 h-3 rounded-full bg-gray-400 mr-2'></span> Kamera tidak aktif
   </div>`;
+  showPopup("Kamera Dimatikan", "Kamera berhasil dihentikan.", "yellow");
 }
 
-// Tombol kamera pendaftaran
-startRegistrationCameraBtn.addEventListener("click", () => startCamera(videoRegistration, registrationCameraStatus));
-stopRegistrationCameraBtn.addEventListener("click", () => stopCamera(videoRegistration, registrationCameraStatus, registrationStream));
-
-// Tombol kamera absensi
-startAttendanceCameraBtn.addEventListener("click", () => startCamera(videoAttendance, attendanceCameraStatus));
-stopAttendanceCameraBtn.addEventListener("click", () => stopCamera(videoAttendance, attendanceCameraStatus, attendanceStream));
+// Tombol kamera
+startRegistrationCameraBtn.addEventListener("click", () =>
+  startCamera(videoRegistration, registrationCameraStatus)
+);
+stopRegistrationCameraBtn.addEventListener("click", () =>
+  stopCamera(videoRegistration, registrationCameraStatus, registrationStream)
+);
+startAttendanceCameraBtn.addEventListener("click", () =>
+  startCamera(videoAttendance, attendanceCameraStatus)
+);
+stopAttendanceCameraBtn.addEventListener("click", () =>
+  stopCamera(videoAttendance, attendanceCameraStatus, attendanceStream)
+);
 
 // ============================
 // Model Face API
@@ -104,8 +108,10 @@ async function loadModels() {
     await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
     await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
     loadingModelsDiv.style.display = "none";
+    showPopup("Model AI Siap", "Model pendeteksi wajah berhasil dimuat.", "green");
   } catch (e) {
     modelLoadProgress.textContent = "Gagal memuat model wajah.";
+    showPopup("Error", "Model FaceAPI gagal dimuat.", "red");
   }
 }
 
@@ -116,12 +122,17 @@ let registeredStudents = JSON.parse(localStorage.getItem("students")) || [];
 let capturedFaces = [];
 
 captureFaceBtn.addEventListener("click", async () => {
-  if (!videoRegistration.srcObject) return alert("Kamera belum aktif!");
-  const detection = await faceapi.detectSingleFace(videoRegistration, new faceapi.TinyFaceDetectorOptions());
-  if (!detection) return alert("Wajah tidak terdeteksi, coba lagi.");
+  if (!videoRegistration.srcObject)
+    return showPopup("Kamera Mati", "Aktifkan kamera pendaftaran terlebih dahulu.", "red");
+
+  const detection = await faceapi
+    .detectSingleFace(videoRegistration, new faceapi.TinyFaceDetectorOptions());
+  if (!detection)
+    return showPopup("Tidak Terdeteksi", "Wajah tidak terlihat jelas, coba lagi.", "yellow");
 
   capturedFaces.push(detection);
   capturedFaceCount.textContent = capturedFaces.length;
+  showPopup("Wajah Terdeteksi", "Wajah berhasil ditangkap.", "green");
 });
 
 saveStudentBtn.addEventListener("click", () => {
@@ -129,8 +140,7 @@ saveStudentBtn.addEventListener("click", () => {
   const nim = nimInput.value.trim();
 
   if (!name || !nim || capturedFaces.length === 0) {
-    alert("Isi semua data dan ambil minimal satu wajah!");
-    return;
+    return showPopup("Gagal", "Isi data lengkap dan ambil minimal satu wajah.", "red");
   }
 
   registeredStudents.push({ name, nim });
@@ -140,17 +150,14 @@ saveStudentBtn.addEventListener("click", () => {
   nimInput.value = "";
   capturedFaces = [];
   capturedFaceCount.textContent = "0";
-});
-
-clearCaptureBtn.addEventListener("click", () => {
-  capturedFaces = [];
-  capturedFaceCount.textContent = "0";
+  showPopup("Berhasil", "Mahasiswa berhasil didaftarkan.", "green");
 });
 
 function updateRegisteredList() {
   registeredFacesList.innerHTML = "";
   if (registeredStudents.length === 0) {
-    registeredFacesList.innerHTML = `<div class='text-center py-4 text-gray-400'>Belum ada mahasiswa terdaftar</div>`;
+    registeredFacesList.innerHTML =
+      `<div class='text-center py-4 text-gray-400'>Belum ada mahasiswa terdaftar</div>`;
   } else {
     registeredStudents.forEach((s) => {
       const div = document.createElement("div");
@@ -159,8 +166,6 @@ function updateRegisteredList() {
       registeredFacesList.appendChild(div);
     });
   }
-  registeredFacesCount.textContent = registeredStudents.length;
-  registeredStudentsDisplay.textContent = registeredStudents.length;
 }
 
 // ============================
@@ -174,33 +179,36 @@ function markAttendance(student) {
     name: student.name,
     nim: student.nim,
     time: now.toLocaleTimeString(),
-    status: "Hadir"
+    status: "Hadir",
   };
   attendanceToday.push(entry);
   updateAttendanceDisplay();
+  showPopup("Presensi Berhasil", `${student.name} telah tercatat hadir.`, "green");
 }
 
 function updateAttendanceDisplay() {
   attendanceRecords.innerHTML = "";
-  attendanceToday.forEach((a) => {
-    const div = document.createElement("div");
-    div.className = "attendance-card status-hadir";
-    div.innerHTML = `<div class='font-semibold text-green-700'>${a.name}</div>
-                     <div class='text-sm text-gray-600'>${a.nim}</div>
-                     <div class='text-xs text-gray-500'>${a.time}</div>`;
-    attendanceRecords.appendChild(div);
-  });
-  totalPresent.textContent = attendanceToday.length;
-  attendanceCount.textContent = attendanceToday.length;
+  if (attendanceToday.length === 0) {
+    attendanceRecords.innerHTML =
+      `<div class='text-center py-4 text-gray-400'>Belum ada kehadiran hari ini</div>`;
+  } else {
+    attendanceToday.forEach((a) => {
+      const div = document.createElement("div");
+      div.className = "attendance-card status-hadir";
+      div.innerHTML = `<div class='font-semibold text-green-700'>${a.name}</div>
+        <div class='text-sm text-gray-600'>${a.nim}</div>
+        <div class='text-xs text-gray-500'>${a.time}</div>`;
+      attendanceRecords.appendChild(div);
+    });
+  }
 }
 
 saveBtn.addEventListener("click", () => {
-  if (attendanceToday.length === 0) {
-    alert("Tidak ada data untuk disimpan!");
-    return;
-  }
+  if (attendanceToday.length === 0)
+    return showPopup("Tidak Ada Data", "Belum ada data untuk disimpan.", "red");
+
   localStorage.setItem("attendance", JSON.stringify(attendanceToday));
-  alert("Data absensi berhasil disimpan!");
+  showPopup("Tersimpan", "Data absensi berhasil disimpan!", "green");
   attendanceToday = [];
   updateAttendanceDisplay();
 });
@@ -210,16 +218,40 @@ saveBtn.addEventListener("click", () => {
 // ============================
 const settingMainTitle = document.getElementById("settingMainTitle");
 const settingHeaderSubtitle = document.getElementById("settingHeaderSubtitle");
-const settingRegistrationSectionTitle = document.getElementById("settingRegistrationSectionTitle");
-const settingAttendanceSectionTitle = document.getElementById("settingAttendanceSectionTitle");
 const saveSettingsBtn = document.getElementById("saveSettingsBtn");
 
 saveSettingsBtn.addEventListener("click", () => {
   document.getElementById("mainTitle").textContent = settingMainTitle.value;
   document.getElementById("headerSubtitle").textContent = settingHeaderSubtitle.value;
-  document.getElementById("registrationSectionTitle").textContent = settingRegistrationSectionTitle.value;
-  document.getElementById("attendanceSectionTitle").textContent = settingAttendanceSectionTitle.value;
-  alert("Pengaturan berhasil disimpan!");
+  showPopup("Berhasil", "Pengaturan disimpan!", "green");
+});
+
+// ============================
+// POP-UP NOTIFICATION SYSTEM
+// ============================
+const popupOverlay = document.getElementById("popupOverlay");
+const popupTitle = document.getElementById("popupTitle");
+const popupMessage = document.getElementById("popupMessage");
+const popupCloseBtn = document.getElementById("popupCloseBtn");
+
+function showPopup(title, message, color = "blue") {
+  popupTitle.textContent = title;
+  popupMessage.textContent = message;
+  popupOverlay.classList.remove("hidden");
+  popupOverlay.classList.add("show");
+
+  const colorClass = {
+    blue: "text-blue-600",
+    green: "text-green-600",
+    red: "text-red-600",
+    yellow: "text-yellow-600",
+  };
+  popupTitle.className = `text-xl font-bold mb-2 ${colorClass[color] || "text-blue-600"}`;
+}
+
+popupCloseBtn.addEventListener("click", () => {
+  popupOverlay.classList.add("hidden");
+  popupOverlay.classList.remove("show");
 });
 
 // ============================
