@@ -1,150 +1,48 @@
-/* === Gaya Umum === */
+/* style.css - tambahan kustom */
 body {
-  font-family: 'Inter', sans-serif;
-  background-image: url('../assets/image_a3f143.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-color: #F9FAFB;
-  min-height: 100vh;
+  scroll-behavior: smooth;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* === Logo ITENAS === */
-.itenas-logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 120px;
-  height: auto;
-  z-index: 100;
-  background-color: rgba(255,255,255,0.8);
-  padding: 5px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* === Kontainer Video === */
+/* Kontainer video */
 .video-container {
   position: relative;
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: inline-block;
   background-color: #000;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-.video-container video {
+/* Pastikan video ikut ukuran container */
+video {
   display: block;
+  border-radius: 6px;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.06);
 }
 
-.canvas-overlay {
+/* Canvas overlay (otomatis dibuat oleh script) */
+canvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 6px;
+  left: 6px;
+  pointer-events: none;
 }
 
-/* === Efek Tombol & Transisi === */
-button {
-  transition: all 0.3s ease;
+/* Tombol & input kecil */
+input, button {
+  font-size: 0.95rem;
 }
 
-button:active {
-  transform: scale(0.97);
-}
-
-/* === Status Kamera === */
-#registrationCameraStatus, #attendanceCameraStatus {
-  transition: all 0.3s ease;
-}
-
-/* === Animasi Detak Cahaya Statistik === */
-.pulse-animation {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
-  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-}
-
-/* === Status Absensi === */
-.status-hadir {
-  background-color: rgba(18,89,65,0.1);
-  border-left: 4px solid #06b77c;
-}
-.status-terlambat {
-  background-color: rgba(255,165,0,0.1);
-  border-left: 4px solid #FFA500;
-}
-.status-tidak-dikenali {
-  background-color: rgba(107,114,128,0.1);
-  border-left: 4px solid #6b7280;
-}
-.status-sudah-absen {
-  background-color: rgba(255,215,0,0.1);
-  border-left: 4px solid #FFD700;
-}
-.status-belum-dimulai {
-  background-color: rgba(100,100,255,0.1);
-  border-left: 4px solid #6464FF;
-}
-
-/* === Halaman Aktif/Nonaktif === */
-.page-section {
-  display: none;
-  background-color: rgba(255,255,255,0.9);
-}
-.page-section.active {
-  display: block;
-}
-
-/* === Kartu Absensi === */
-.attendance-card {
-  transition: all 0.3s ease;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 10px;
-}
-.attendance-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* === Scroll list mahasiswa === */
-#registeredFacesList {
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-}
-
-#registeredFacesList::-webkit-scrollbar {
-  width: 8px;
-}
-#registeredFacesList::-webkit-scrollbar-thumb {
-  background-color: #aaa;
-  border-radius: 8px;
-}
-#registeredFacesList::-webkit-scrollbar-thumb:hover {
-  background-color: #777;
-}
-
-/* === POP-UP NOTIFICATION === */
-#popupOverlay {
-  backdrop-filter: blur(4px);
-}
-
+/* Popup */
 #popupOverlay.show {
   display: flex !important;
-  animation: fadeIn 0.25s ease-in-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+/* Scrollbar kecil untuk list */
+#registeredList, #attendanceList {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
 }

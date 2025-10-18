@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Absensi Wajah</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <img src="assets/logo1.png" alt="Logo" class="w-100 h-10 rounded bg-white p-1" />
+      <span class="font-semibold text-lg">Sistem Presensi Wajah</span>
+    </div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-gray-200">Beranda</a></li>
+      <li><a href="pendaftaran.html" class="hover:text-gray-200">Pendaftaran</a></li>
+      <li><a href="absensi.html" class="underline">Absensi</a></li>
+    </ul>
+  </nav>
+
+  <main class="container mx-auto py-10 px-4 max-w-xl">
+    <h1 class="text-3xl font-bold text-blue-700 mb-4 text-center">Absensi Wajah</h1>
+    <p class="text-gray-600 text-center mb-6">Tekan "Mulai Absensi" lalu hadapkan wajah ke kamera.</p>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="flex flex-col items-center space-y-4">
+        <div class="video-container w-full max-w-xs">
+          <video id="video" width="320" height="240" autoplay muted class="rounded"></video>
+          <!-- canvas dibuat oleh JS -->
+        </div>
+
+        <div class="w-full flex gap-3">
+          <button id="startAttendanceBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded">Mulai Absensi</button>
+          <button id="stopAttendanceBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded">Stop</button>
+        </div>
+
+        <div id="attendanceStatus" class="text-sm text-gray-600 text-center">Status: menunggu</div>
+
+        <h3 class="w-full text-left font-medium mt-4">Rekaman Kehadiran Hari Ini</h3>
+        <div id="attendanceList" class="w-full max-h-40 overflow-auto border rounded p-2 bg-gray-50 text-sm">
+          <div class="text-gray-400 text-center py-4">Belum ada rekaman</div>
+        </div>
+
+        <button id="saveAttendanceBtn" class="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Simpan (local)</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Pop-up -->
+  <div id="popupOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+      <h3 id="popupTitle" class="text-lg font-bold mb-2">Notifikasi</h3>
+      <p id="popupMsg" class="text-gray-700 mb-4">Pesan</p>
+      <button id="popupClose" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Tutup</button>
+    </div>
+  </div>
+</body>
+</html>
