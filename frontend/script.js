@@ -125,7 +125,7 @@ async function setupRegistrationPage() {
   const captureBtn = document.getElementById('captureBtn');
   const clearAllBtn = document.getElementById('clearAllBtn');
   const nameInput = document.getElementById('nameInput');
-  const nimInput = document.getElementById('nimInput');
+  const nrpInput = document.getElementById('nrpInput');
   const statusEl = document.getElementById('registrationStatus');
   const listEl = document.getElementById('registeredList');
 
@@ -141,7 +141,7 @@ async function setupRegistrationPage() {
       const div = document.createElement('div');
       div.className = 'p-2 border-b';
       const count = (s.descriptors && s.descriptors.length) ? s.descriptors.length : 0;
-      div.innerHTML = `<div class="font-medium">${s.name} ${s.nim ? `(${s.nim})` : ''}</div>
+      div.innerHTML = `<div class="font-medium">${s.name} ${s.nrp ? `(${s.nrp})` : ''}</div>
                        <div class="text-xs text-gray-600">samples: ${count}</div>`;
       listEl.appendChild(div);
     });
@@ -175,7 +175,7 @@ async function setupRegistrationPage() {
   if (captureBtn) {
     captureBtn.addEventListener('click', async () => {
       const name = nameInput.value.trim();
-      const nim = nimInput.value.trim();
+      const nrp = nrpInput.value.trim();
       if (!name) {
         showPopup('Perhatian', 'Masukkan nama terlebih dahulu.');
         return;
@@ -204,9 +204,9 @@ async function setupRegistrationPage() {
       // ambil students
       const students = loadStudents();
       // cek apakah nama sudah ada
-      let student = students.find(s => s.name === name && s.nim === nim);
+      let student = students.find(s => s.name === name && s.nrp === nrp);
       if (!student) {
-        student = { name, nim, descriptors: [] };
+        student = { name, nrp, descriptors: [] };
         students.push(student);
       }
       student.descriptors.push(descriptorArr);
@@ -215,7 +215,7 @@ async function setupRegistrationPage() {
       statusEl.textContent = `Status: tersimpan untuk ${name}.`;
       showPopup('Berhasil', `Wajah ${name} disimpan (samples: ${student.descriptors.length}).`);
       nameInput.value = '';
-      nimInput.value = '';
+      nrpInput.value = '';
       renderList();
     });
   }
@@ -274,7 +274,7 @@ async function setupAttendancePage() {
     arr.forEach(r => {
       const div = document.createElement('div');
       div.className = 'p-2 border-b';
-      div.innerHTML = `<div class="font-medium">${r.name} ${r.nim ? `(${r.nim})` : ''}</div>
+      div.innerHTML = `<div class="font-medium">${r.name} ${r.nrp ? `(${r.nrp})` : ''}</div>
                        <div class="text-xs text-gray-600">${r.time}</div>`;
       listEl.appendChild(div);
     });
@@ -335,7 +335,7 @@ async function setupAttendancePage() {
   function addAttendanceRecord(student) {
     const arr = loadAttendance();
     const now = new Date();
-    const rec = { name: student.name, nim: student.nim || '', time: now.toLocaleString() };
+    const rec = { name: student.name, nrp: student.nrp || '', time: now.toLocaleString() };
     // hindari duplikasi di hari yang sama (sederhana: per name)
     if (arr.find(a => a.name === rec.name)) return;
     arr.push(rec);
@@ -399,7 +399,7 @@ function startAttendanceLoop(videoEl, labeledDescriptors) {
           const arr = loadAttendance();
           if (!arr.find(a => a.name === matchedStudent.name)) {
             const now = new Date();
-            arr.push({ name: matchedStudent.name, nim: matchedStudent.nim || '', time: now.toLocaleString() });
+            arr.push({ name: matchedStudent.name, nrp: matchedStudent.nrp || '', time: now.toLocaleString() });
             saveAttendance(arr);
             // update UI: try to find attendanceList element
             const el = document.getElementById('attendanceList');
@@ -408,7 +408,7 @@ function startAttendanceLoop(videoEl, labeledDescriptors) {
               // so update directly: append new div
               const div = document.createElement('div');
               div.className = 'p-2 border-b';
-              div.innerHTML = `<div class="font-medium">${matchedStudent.name} ${matchedStudent.nim ? `(${matchedStudent.nim})` : ''}</div>
+              div.innerHTML = `<div class="font-medium">${matchedStudent.name} ${matchedStudent.nrp ? `(${matchedStudent.nrp})` : ''}</div>
                                <div class="text-xs text-gray-600">${now.toLocaleString()}</div>`;
               // if there's placeholder 'Belum ada rekaman', remove it
               if (el.querySelector('.text-gray-400')) el.innerHTML = '';

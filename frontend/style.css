@@ -1,3 +1,13 @@
+
+/*
+primary: #f25c05
+secondary: #f24405
+tertiary: #ff9d00
+
+white: #ffffff
+black: #000000
+*/
+
 /* style.css - tambahan kustom */
 body {
   scroll-behavior: smooth;
@@ -20,7 +30,7 @@ video {
   border-radius: 6px;
   width: 100%;
   height: auto;
-  border: 2px solid rgba(255,255,255,0.06);
+  border: 2px solid #000000;
 }
 
 /* Canvas overlay (otomatis dibuat oleh script) */
@@ -44,5 +54,5 @@ input, button {
 /* Scrollbar kecil untuk list */
 #registeredList, #attendanceList {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0,0,0,0.2) transparent;
+  scrollbar-color: #000000 transparent;
 }

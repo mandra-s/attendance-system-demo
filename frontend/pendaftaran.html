@@ -6,8 +6,6 @@
   <title>Pendaftaran Wajah</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="style.css">
-  
-  <!-- face-api.js (CDN) -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script defer src="script.js"></script>
   <link rel="icon" href="assets/itenasicon.png">
@@ -22,7 +20,7 @@
     <ul class="flex space-x-6">
       <li><a href="index.html" class="hover:text-gray-200">Beranda</a></li>
       <li><a href="pendaftaran.html" class="underline">Pendaftaran</a></li>
-      <li><a href="absensi.html" class="hover:text-gray-200">Absensi</a></li>
+      <li><a href="absensi.html" class="hover:text-gray-200">Presensi</a></li>
     </ul>
   </nav>
 
@@ -38,8 +36,8 @@
           <!-- canvas akan dibuat dan ditempel oleh script -->
         </div>
 
-        <input id="nameInput" type="text" placeholder="Nama (mis. Budi)" class="w-full border px-3 py-2 rounded" />
-        <input id="nimInput" type="text" placeholder="NIM (opsional)" class="w-full border px-3 py-2 rounded" />
+        <input id="nameInput" type="text" placeholder="Nama" class="w-full border px-3 py-2 rounded" />
+        <input id="nrpInput" type="text" placeholder="NRP" class="w-full border px-3 py-2 rounded" />
 
         <div class="w-full flex gap-3">
           <button id="startCameraBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded">Mulai Kamera</button>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Beranda - Sistem Presensi Wajah</title>
+  <title>Sistem Presensi ITENAS</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/itenasicon.png">
@@ -13,36 +13,27 @@
   <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-lg">
     <div class="flex items-center space-x-3">
       <img src="assets/logo1.png" alt="Logo" class="w-50 h-20 rounded p-1" />
-      <span class="font-semibold text-lg">Sistem Presensi Wajah</span>
+      <span class="font-semibold text-lg">Sistem Presensi ITENAS</span>
     </div>
     <ul class="flex space-x-6">
       <li><a href="index.html" class="underline">Beranda</a></li>
       <li><a href="pendaftaran.html" class="hover:text-gray-200">Pendaftaran</a></li>
-      <li><a href="absensi.html" class="hover:text-gray-200">Absensi</a></li>
+      <li><a href="absensi.html" class="hover:text-gray-200">Presensi</a></li>
     </ul>
   </nav>
 
   <!-- Konten Utama -->
   <main class="text-center py-16 container mx-auto">
-    <h1 class="text-4xl font-bold text-blue-700 mb-4">Selamat Datang di Sistem Presensi Wajah</h1>
+    <h1 class="text-4xl font-bold text-blue-700 mb-4">Sistem Presensi Wajah ITENAS</h1>
     <p class="text-gray-700 max-w-xl mx-auto mb-6">
       Proyek ini adalah simulasi presensi berbasis pengenalan wajah.  
-      Mulailah dengan mendaftarkan beberapa wajah pada halaman <strong>Pendaftaran</strong>, kemudian uji pengenalan pada halaman <strong>Absensi</strong>.
+      Mulailah dengan mendaftarkan beberapa wajah pada halaman <strong>Pendaftaran</strong>, kemudian uji pengenalan pada halaman <strong>Presensi</strong>.
     </p>
 
     <div class="flex justify-center gap-6 mt-8">
       <a href="pendaftaran.html" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-md">Pendaftaran Wajah</a>
-      <a href="absensi.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md">Mulai Absensi</a>
+      <a href="absensi.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md">Mulai Presensi</a>
     </div>
-
-    <section class="mt-12 text-left max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-3">Catatan singkat</h2>
-      <ul class="list-disc ml-5 text-gray-600">
-        <li>Jalankan lewat Live Server / HTTP agar kamera dapat diakses.</li>
-        <li>Letakkan folder model `ssd_mobilenetv1` atau `tiny_face_detector` di <code>assets/models/</code>.</li>
-        <li>Data pendaftaran disimpan ke <code>localStorage</code> (simulasi). Kelak dapat dipindah ke backend & database.</li>
-      </ul>
-    </section>
   </main>
 </body>
 </html>
