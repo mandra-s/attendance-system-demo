@@ -54,7 +54,7 @@ function saveAttendance(arr) {
 /* ---------- face-api models ---------- */
 let modelsLoaded = false;
 async function loadModels() {
-  const MODEL_URL = 'assets/models/';
+  const MODEL_URL = 'assets/models';
   try {
     // gunakan ssdMobilenetv1 agar descriptor faceRecognition tersedia
     await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
