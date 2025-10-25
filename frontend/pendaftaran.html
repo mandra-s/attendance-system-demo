@@ -10,28 +10,27 @@
   <script defer src="script.js"></script>
   <link rel="icon" href="assets/itenasicon.png">
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-white min-h-screen">
   <!-- Navbar -->
-  <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+  <nav class="bg-white text-black px-6 py-4 flex justify-between items-center">
     <div class="flex items-center space-x-3">
       <img src="assets/logo1.png" alt="Logo" class="w-50 h-20 rounded p-1"/>
-      <span class="font-semibold text-lg">Sistem Presensi Wajah</span>
     </div>
     <ul class="flex space-x-6">
-      <li><a href="index.html" class="hover:text-gray-200">Beranda</a></li>
-      <li><a href="pendaftaran.html" class="underline">Pendaftaran</a></li>
-      <li><a href="absensi.html" class="hover:text-gray-200">Presensi</a></li>
+      <li><a href="index.html" class="text-black hover:text-gray-400">Beranda</a></li>
+      <li><a href="pendaftaran.html" class="text-black underline">Pendaftaran</a></li>
+      <li><a href="presensi.html" class="text-black hover:text-gray-400">Presensi</a></li>
     </ul>
   </nav>
 
   <!-- Konten -->
   <main class="container mx-auto py-10 px-4 max-w-xl">
-    <h1 class="text-3xl font-bold text-blue-700 mb-4 text-center">Pendaftaran Wajah</h1>
+    <h1 class="text-3xl font-bold text-black-700 mb-4 text-center">Pendaftaran Wajah</h1>
     <p class="text-gray-600 text-center mb-6">Arahkan wajah ke kamera, masukkan nama, lalu tekan "Daftarkan Wajah".</p>
 
     <div class="bg-white p-6 rounded-lg shadow">
       <div class="flex flex-col items-center space-y-4">
-        <div class="video-container w-full max-w-xs">
+        <div class="video-container w-full max-w-s">
           <video id="video" width="320" height="240" autoplay muted class="rounded"></video>
           <!-- canvas akan dibuat dan ditempel oleh script -->
         </div>
@@ -40,13 +39,13 @@
         <input id="nrpInput" type="text" placeholder="NRP" class="w-full border px-3 py-2 rounded" />
 
         <div class="w-full flex gap-3">
-          <button id="startCameraBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded">Mulai Kamera</button>
-          <button id="stopCameraBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded">Stop Kamera</button>
+          <button id="startCameraBtn" class="flex-1 bg-orange-400 hover:bg-orange-500 text-white px-3 py-2 rounded">Mulai Kamera</button>
+          <button id="stopCameraBtn" class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded">Stop Kamera</button>
         </div>
 
         <div class="w-full flex gap-3">
-          <button id="captureBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded">Daftarkan Wajah</button>
-          <button id="clearAllBtn" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded">Hapus Semua Pendaftaran</button>
+          <button id="captureBtn" class="flex-1 bg-orange-400 hover:bg-orange-500 text-white px-3 py-2 rounded">Daftarkan Wajah</button>
+          <button id="clearAllBtn" class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded">Hapus Semua Pendaftaran</button>
         </div>
 
         <div id="registrationStatus" class="text-sm text-gray-600 text-center">Status: menunggu aksi</div>

@@ -10,34 +10,33 @@
   <script defer src="script.js"></script>
   <link rel="icon" href="assets/itenasicon.png">
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-white min-h-screen">
   <!-- Navbar -->
-  <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+  <nav class="bg-white text-black px-6 py-4 flex justify-between items-center">
     <div class="flex items-center space-x-3">
       <img src="assets/logo1.png" alt="Logo" class="w-50 h-20 rounded p-1"/>
-      <span class="font-semibold text-lg">Sistem Presensi Wajah</span>
     </div>
     <ul class="flex space-x-6">
-      <li><a href="index.html" class="hover:text-gray-200">Beranda</a></li>
-      <li><a href="pendaftaran.html" class="hover:text-gray-200">Pendaftaran</a></li>
-      <li><a href="absensi.html" class="underline">Presensi</a></li>
+      <li><a href="index.html" class="text-black hover:text-gray-400">Beranda</a></li>
+      <li><a href="pendaftaran.html" class="text-black hover:text-gray-400">Pendaftaran</a></li>
+      <li><a href="presensi.html" class="text-black underline">Presensi</a></li>
     </ul>
   </nav>
 
   <main class="container mx-auto py-10 px-4 max-w-xl">
-    <h1 class="text-3xl font-bold text-blue-700 mb-4 text-center">Presensi Wajah</h1>
+    <h1 class="text-3xl font-bold text-black-700 mb-4 text-center">Presensi Wajah</h1>
     <p class="text-gray-600 text-center mb-6">Tekan "Mulai Presensi" lalu hadapkan wajah ke kamera.</p>
 
     <div class="bg-white p-6 rounded-lg shadow">
       <div class="flex flex-col items-center space-y-4">
-        <div class="video-container w-full max-w-xs">
+        <div class="video-container w-full max-w-s">
           <video id="video" width="320" height="240" autoplay muted class="rounded"></video>
           <!-- canvas dibuat oleh JS -->
         </div>
 
         <div class="w-full flex gap-3">
-          <button id="startAttendanceBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded">Mulai Presensi</button>
-          <button id="stopAttendanceBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded">Stop</button>
+          <button id="startAttendanceBtn" class="flex-1 bg-orange-400 hover:bg-orange-500 text-white px-3 py-2 rounded">Mulai Presensi</button>
+          <button id="stopAttendanceBtn" class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded">Stop</button>
         </div>
 
         <div id="attendanceStatus" class="text-sm text-gray-600 text-center">Status: menunggu</div>
@@ -47,7 +46,7 @@
           <div class="text-gray-400 text-center py-4">Belum ada rekaman</div>
         </div>
 
-        <button id="saveAttendanceBtn" class="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Simpan (local)</button>
+        <button id="saveAttendanceBtn" class="mt-4 bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded">Simpan (local)</button>
       </div>
     </div>
   </main>

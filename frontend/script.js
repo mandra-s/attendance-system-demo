@@ -3,7 +3,7 @@
    - kamera (start/stop)
    - pemuatan model face-api
    - pendaftaran wajah (menyimpan descriptor ke localStorage)
-   - absensi (mencocokkan descriptor -> mencatat ke attendance list)
+   - presensi (mencocokkan descriptor -> mencatat ke attendance list)
    - popup notifikasi
 */
 
@@ -254,7 +254,7 @@ function startPreviewDetections(videoEl) {
   videoEl._previewInterval = intervalId;
 }
 
-/* ---------- Absensi (halaman absensi.html) ---------- */
+/* ---------- Presensi (halaman presensi.html) ---------- */
 let attendanceInterval = null;
 async function setupAttendancePage() {
   const video = document.getElementById('video');
@@ -302,7 +302,7 @@ async function setupAttendancePage() {
         return;
       }
 
-      statusEl.textContent = 'Status: mulai absensi...';
+      statusEl.textContent = 'Status: mulai presensi...';
       startAttendanceLoop(video, labeled);
     });
   }
@@ -315,7 +315,7 @@ async function setupAttendancePage() {
       const parent = video.parentElement;
       const canvas = parent.querySelector('canvas');
       if (canvas) canvas.remove();
-      showPopup('Dihentikan', 'Absensi dihentikan.');
+      showPopup('Dihentikan', 'Presensi dihentikan.');
     });
   }
 
@@ -445,7 +445,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   if (file === 'pendaftaran.html') {
     await setupRegistrationPage();
-  } else if (file === 'absensi.html') {
+  } else if (file === 'presensi.html') {
     await setupAttendancePage();
   } else {
     // index or others: no-op
