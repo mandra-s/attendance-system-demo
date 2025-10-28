@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Presensi Itenas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+    @keyframes spin { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+
+    .fade-in { opacity: 0; animation: fadeInUp 1s ease forwards; }
+    .delay-1 { animation-delay: .2s; }
+    .delay-2 { animation-delay: .4s; }
+    .delay-3 { animation-delay: .6s; }
+
+    body {
+      background-color: white; /* Ubah background jadi putih */
+      font-family: 'Inter', sans-serif;
+    }
+
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1e3a8a;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 1.25rem; }
+      h2 { font-size: 1rem; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen relative">
+
+  <!-- Kartu Login -->
+  <div class="relative z-10 bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md fade-in delay-1">
+    <!-- Header -->
+    <div class="flex justify-center items-center mb-6 space-x-3 fade-in delay-2">
+      <img src="https://kemahasiswaan.itenas.ac.id/beasiswa/assets/beasiswa/Logo_itenas_copy1.jpg" alt="Logo Itenas" class="w-12 h-12 animate-pulse">
+      <h1 class="text-2xl font-bold text-black text-center">Institut Teknologi Nasional</h1>
+    </div>
+
+    <div class="fade-in delay-3 text-center mb-6">
+      <h2 class="text-lg font-semibold text-gray-800">Selamat datang di Sistem Presensi Itenas</h2>
+      <p class="text-gray-600 text-sm">Silakan login menggunakan akun SIKAD Anda</p>
+    </div>
+
+    <!-- Notifikasi -->
+    <div id="alertBox" class="hidden mb-4 p-3 rounded-lg text-sm text-center font-medium"></div>
+
+    <!-- Form Login -->
+    <form id="loginForm" class="space-y-4">
+      <div class="text-left">
+        <label for="nrp" class="block text-sm font-medium text-gray-700 mb-1">NRP / NODOS</label>
+        <input type="text" id="nrp" name="nrp" placeholder="Masukkan NRP / NODOS"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+      </div>
+
+      <div class="text-left relative">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan Password"
+          class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+        <button type="button" id="togglePassword" class="absolute right-3 top-9 text-gray-500 hover:text-orange-500">👁️</button>
+      </div>
+
+      <!-- Tombol Masuk -->
+      <button id="loginBtn" type="submit"
+        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg shadow-md transition transform hover:-translate-y-0.5">
+        Masuk
+      </button>
+
+      <!-- Loader -->
+      <div id="loader" class="hidden flex justify-center mt-4">
+        <div class="loader"></div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const alertBox = document.getElementById('alertBox');
+    const loader = document.getElementById('loader');
+    const loginBtn = document.getElementById('loginBtn');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    function showAlert(message, color) {
+      alertBox.textContent = message;
+      alertBox.className = `mb-4 p-3 rounded-lg text-sm text-center font-medium ${color}`;
+      alertBox.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nrp = document.getElementById('nrp').value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!nrp || !password) {
+        showAlert("⚠️ Harap isi semua kolom login!", "bg-yellow-100 text-yellow-800 border border-yellow-400");
+        return;
+      }
+
+      loader.classList.remove('hidden');
+      loginBtn.disabled = true;
+      loginBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        loginBtn.disabled = false;
+        loginBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+
+        if (nrp === "112023002" && password === "605005") {
+          showAlert("✅ Login berhasil! Mengarahkan ke dashboard...", "bg-green-100 text-green-800 border border-green-400");
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1500);
+        } else {
+          showAlert("❌ Login gagal! NRP atau password salah.", "bg-red-100 text-red-800 border border-red-400");
+        }
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
