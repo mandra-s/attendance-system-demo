@@ -4,67 +4,117 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pendaftaran Wajah</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-  <script defer src="script.js"></script>
-  <link rel="icon" href="assets/itenasicon.png">
+
+  <!-- Style dan Font -->
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/itenasicon.png" />
+
+  <!-- Icon & Face API -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 </head>
-<body class="bg-white min-h-screen">
-  <!-- Navbar -->
-  <nav class="bg-white text-black px-6 py-4 flex justify-between items-center">
-    <div class="flex items-center space-x-3">
-      <img src="assets/logo1.png" alt="Logo" class="w-50 h-20 rounded p-1"/>
-    </div>
-    <ul class="flex space-x-6">
-      <li><a href="index.html" class="text-black hover:text-gray-400">Beranda</a></li>
-      <li><a href="pendaftaran.html" class="text-black underline">Pendaftaran</a></li>
-      <li><a href="presensi.html" class="text-black hover:text-gray-400">Presensi</a></li>
-    </ul>
-  </nav>
 
-  <!-- Konten -->
-  <main class="container mx-auto py-10 px-4 max-w-xl">
-    <h1 class="text-3xl font-bold text-black-700 mb-4 text-center">Pendaftaran Wajah</h1>
-    <p class="text-gray-600 text-center mb-6">Arahkan wajah ke kamera, masukkan nama, lalu tekan "Daftarkan Wajah".</p>
+<body data-page="pendaftaran">
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar hidden">
+      <button id="closeSidebar" class="sidebar-close" aria-label="Tutup sidebar">×</button>
 
-    <div class="bg-white p-6 rounded-lg shadow">
-      <div class="flex flex-col items-center space-y-4">
-        <div class="video-container w-full max-w-s">
-          <video id="video" width="320" height="240" autoplay muted class="rounded"></video>
-          <!-- canvas akan dibuat dan ditempel oleh script -->
-        </div>
-
-        <input id="nameInput" type="text" placeholder="Nama" class="w-full border px-3 py-2 rounded" />
-        <input id="nrpInput" type="text" placeholder="NRP" class="w-full border px-3 py-2 rounded" />
-
-        <div class="w-full flex gap-3">
-          <button id="startCameraBtn" class="flex-1 bg-orange-400 hover:bg-orange-500 text-white px-3 py-2 rounded">Mulai Kamera</button>
-          <button id="stopCameraBtn" class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded">Stop Kamera</button>
-        </div>
-
-        <div class="w-full flex gap-3">
-          <button id="captureBtn" class="flex-1 bg-orange-400 hover:bg-orange-500 text-white px-3 py-2 rounded">Daftarkan Wajah</button>
-          <button id="clearAllBtn" class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded">Hapus Semua Pendaftaran</button>
-        </div>
-
-        <div id="registrationStatus" class="text-sm text-gray-600 text-center">Status: menunggu aksi</div>
-
-        <h3 class="w-full text-left font-medium mt-4">Daftar Terdaftar</h3>
-        <div id="registeredList" class="w-full max-h-40 overflow-auto border rounded p-2 bg-gray-50 text-sm">
-          <div class="text-gray-400 text-center py-4">Belum ada data terdaftar</div>
+      <div class="sidebar-top">
+        <div class="brand">
+          <img src="assets/itenasicon.png" alt="logo" class="brand-logo" />
+          <span class="brand-text">Presensi ITENAS</span>
         </div>
       </div>
-    </div>
-  </main>
 
-  <!-- Pop-up -->
-  <div id="popupOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-      <h3 id="popupTitle" class="text-lg font-bold mb-2">Notifikasi</h3>
-      <p id="popupMsg" class="text-gray-700 mb-4">Pesan</p>
-      <button id="popupClose" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Tutup</button>
+      <div class="profile">
+        <img id="profilePhoto" src="" alt="Profil" class="profile-pic" />
+        <div class="profile-info">
+          <div id="profileName" class="profile-name">Nama Mahasiswa</div>
+          <div id="profileRole" class="profile-role">Prodi / NIM</div>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard.html" class="menu-item">
+          <i data-lucide="scan" class="lucide-icon"></i><span>Scan Wajah</span></a>
+        <a href="pendaftaran.html" class="menu-item active">
+          <i data-lucide="clipboard-list" class="lucide-icon"></i><span>Pendaftaran</span></a>
+        <a href="kehadiran.html" class="menu-item">
+          <i data-lucide="user-check" class="lucide-icon"></i><span>Kehadiran</span></a>
+        <a href="jadwal-kuliah.html" class="menu-item">
+          <i data-lucide="calendar" class="lucide-icon"></i><span>Jadwal Kuliah</span></a>
+        <a href="jadwal-ujian.html" class="menu-item">
+          <i data-lucide="calendar" class="lucide-icon"></i><span>Jadwal Ujian</span></a>
+        <a href="kuesioner.html" class="menu-item">
+          <i data-lucide="file-text" class="lucide-icon"></i><span>Kuesioner</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item">
+          <i data-lucide="log-out" class="lucide-icon"></i><span>Keluar</span></a>
+      </div>    
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="topbar">
+        <button id="toggleSidebar" class="toggle-btn" aria-label="Toggle sidebar">☰</button>
+        <h1 class="topbar-title">Presensi ITENAS</h1>
+        <div class="topbar-actions">
+          <div id="statusIndicator" class="status status-idle">Menunggu</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Area Pendaftaran -->
+        <section class="content-card">
+          <h1 class="content-heading">Pendaftaran Wajah</h1>
+          <p class="p content-text">Arahkan wajah ke kamera, masukkan nama dan NRP, lalu tekan “Daftarkan Wajah”.</p>
+
+          <div class="camera-area">
+            <div class="video-wrap">
+              <video id="video" autoplay muted playsinline></video>
+              <canvas id="overlayCanvas"></canvas>
+            </div>
+
+            <input id="nameInput" type="text" placeholder="Nama" class="w-full border px-3 py-2 rounded" />
+            <input id="nrpInput" type="text" placeholder="NRP" class="w-full border px-3 py-2 rounded" />
+
+            <div class="controls">
+              <button id="startCameraBtn" class="btn btn-primary">Mulai Kamera</button>
+              <button id="stopCameraBtn" class="btn btn-danger">Matikan Kamera</button>
+            </div>
+
+            <div class="controls">
+              <button id="registerBtn" class="btn btn-primary">Daftarkan Wajah</button>
+              <button id="clearAllBtn" class="btn btn-danger">Hapus Semua Pendaftaran</button>
+            </div>
+
+            <div id="registrationStatus" class="status status-idle">Status: menunggu aksi</div>
+
+            <h3 class="p">Data Terdaftar</h3>
+            <div id="registeredList" class="content-card">
+              <div class="content-text">Belum ada data terdaftar</div>
+            </div>
+          </div>
+        </section>  
+      </main>
+
+      <footer class="footer">
+        <p class="text-sm">© ITENAS — Sistem Presensi Wajah oleh Rizki & Arman</p>
+      </footer>
     </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
   </div>
+
+  <div id="overlay"></div>
+
+  <!-- 🔹 Urutan sangat penting: face-utils.js dulu -->
+  <script src="face-utils.js"></script>
+  <script src="pendaftaran.js" defer></script>
 </body>
 </html>

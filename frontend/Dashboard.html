@@ -1,178 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Presensi Itenas</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Presensi ITENAS</title>
 
-  <!-- Tailwind & Icon -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/itenasicon.png" />
+
+  <!-- Icon & Face API -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-
-  <style>
-    /* === Animasi Drawer === */
-    @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(100%); opacity: 0; }
-    }
-    .drawer-enter { animation: slideInRight 0.45s ease forwards; }
-    .drawer-exit { animation: slideOutRight 0.35s ease forwards; }
-
-    /* === Fade === */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    body { animation: fadeIn 0.8s ease-in-out; }
-    .fade-in { animation: fadeIn 1s ease both; }
-
-    /* === Backdrop === */
-    @keyframes blurIn {
-      from { opacity: 0; backdrop-filter: blur(0px); }
-      to { opacity: 1; backdrop-filter: blur(4px); }
-    }
-    @keyframes blurOut {
-      from { opacity: 1; backdrop-filter: blur(4px); }
-      to { opacity: 0; backdrop-filter: blur(0px); }
-    }
-    .backdrop-enter { animation: blurIn 0.4s ease forwards; }
-    .backdrop-exit { animation: blurOut 0.3s ease forwards; }
-
-    /* === Loading shimmer === */
-    @keyframes shimmer {
-      0% { background-position: -200px 0; }
-      100% { background-position: 200px 0; }
-    }
-    .shimmer {
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.2s infinite;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 </head>
 
-<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-screen">
+<body data-page="dashboard">
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar hidden">
+      <button id="closeSidebar" class="sidebar-close" aria-label="Tutup sidebar">×</button>
 
-  <!-- HEADER -->
-  <header class="flex justify-between items-center px-6 py-4 bg-blue-800 shadow-md fade-in">
-    <div>
-      <h1 class="text-lg font-bold tracking-wide">Presensi Itenas</h1>
-      <p class="text-sm text-blue-200">Selamat datang kembali!</p>
-    </div>
-    <button id="menuBtn" class="p-2 rounded-lg hover:bg-white/10 transition">
-      <i data-lucide="menu" class="w-7 h-7"></i>
-    </button>
-  </header>
+      <div class="sidebar-top">
+        <div class="brand">
+          <img src="assets/itenasicon.png" alt="logo" class="brand-logo" />
+          <span class="brand-text">Presensi ITENAS</span>
+        </div>
+      </div>
 
-  <!-- MAIN: SCAN QR -->
-  <main class="flex flex-col items-center justify-center px-6 py-10 space-y-6 fade-in">
-    <div class="bg-white/10 p-6 rounded-2xl shadow-xl w-full max-w-md text-center backdrop-blur-md border border-white/10">
-      <h2 class="text-2xl font-semibold mb-4 animate-pulse">📷 Scan QR-Code</h2>
-      <p class="text-sm text-blue-200 mb-6">Arahkan kamera ke kode QR untuk melakukan presensi kehadiran.</p>
-      
-      <div id="qr-reader" class="rounded-xl overflow-hidden shadow-md"></div>
-      <div id="qr-result" class="mt-4 text-center font-semibold text-green-200"></div>
-    </div>
-  </main>
+      <div class="profile">
+        <img id="profilePhoto" src="assets/logo1.png" alt="Profil" class="profile-pic" />
+        <div class="profile-info">
+          <div id="profileName" class="profile-name">Nama Mahasiswa</div>
+          <div id="profileRole" class="profile-role">Prodi / NIM</div>
+        </div>
+      </div>
 
-  <!-- HALAMAN DASHBOARD SETELAH SCAN -->
-  <div id="dashboardPage" class="hidden fixed inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white flex flex-col items-center justify-center">
-    <div class="text-center space-y-4">
-      <div class="w-24 h-24 rounded-full shimmer mx-auto mb-4"></div>
-      <h2 class="text-2xl font-bold">Presensi Berhasil!</h2>
-      <p class="text-blue-200">Mengalihkan ke dashboard utama...</p>
+      <nav class="menu">
+        <a href="dashboard.html" class="menu-item active">
+          <i data-lucide="scan" class="lucide-icon"></i><span>Scan Wajah</span></a>
+        <a href="pendaftaran.html" class="menu-item">
+          <i data-lucide="clipboard-list" class="lucide-icon"></i><span>Pendaftaran</span></a>
+        <a href="kehadiran.html" class="menu-item">
+          <i data-lucide="user-check" class="lucide-icon"></i><span>Kehadiran</span></a>
+        <a href="jadwal-kuliah.html" class="menu-item">
+          <i data-lucide="calendar" class="lucide-icon"></i><span>Jadwal Kuliah</span></a>
+        <a href="jadwal-ujian.html" class="menu-item">
+          <i data-lucide="calendar" class="lucide-icon"></i><span>Jadwal Ujian</span></a>
+        <a href="kuesioner.html" class="menu-item">
+          <i data-lucide="file-text" class="lucide-icon"></i><span>Kuesioner</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item">
+          <i data-lucide="log-out" class="lucide-icon"></i><span>Keluar</span></a>
+      </div>    
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="topbar">
+        <button id="toggleSidebar" class="toggle-btn" aria-label="Toggle sidebar">☰</button>
+        <h1 class="topbar-title">Presensi ITENAS</h1>
+        <div class="topbar-actions">
+          <div id="statusIndicator" class="status status-idle">Menunggu</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Area Presensi -->
+        <section class="content-card">
+          <h2 class="content-heading">Area Presensi</h2>
+          <p class="p content-text">Arahkan wajah ke kamera, lalu tekan “Presensi”.</p>
+
+          <div class="camera-area">
+            <div class="video-wrap">
+              <video id="video" autoplay muted playsinline></video>
+              <canvas id="overlayCanvas"></canvas>
+            </div>
+
+            <div class="controls">
+              <button id="startCameraBtn" class="btn btn-primary">Mulai Kamera</button>
+              <button id="presenceBtn" class="btn btn-primary">Presensi</button>
+              <button id="stopCameraBtn" class="btn btn-danger">Matikan Kamera</button>
+            </div>
+
+            <div class="info">
+              <div>Nama terdeteksi: <span id="detectedName">—</span></div>
+              <div>Waktu terakhir: <span id="lastTime">—</span></div>
+            </div>
+
+            <h3 class="p">Ringkasan Presensi</h3>
+            <ul id="summaryList" class="content-text">
+              <li>Tidak ada data</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p class="text-sm">© ITENAS — Sistem Presensi Wajah oleh Rizki & Arman</p>
+      </footer>
     </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
   </div>
 
-  <!-- DRAWER -->
-  <div id="drawer" class="fixed top-0 right-0 w-72 h-full bg-blue-900/95 hidden flex-col z-50 shadow-xl">
-    <div class="p-6 border-b border-white/10 text-center fade-in">
-      <img src="https://i.pravatar.cc/100" class="w-20 h-20 rounded-full border-4 border-blue-600 mb-3 mx-auto">
-      <h2 class="text-lg font-semibold">M. Rizki alfiansyah</h2>
-      <p class="text-sm text-blue-300">Mahasiswa Teknik Elektro</p>
-    </div>
+  <div id="overlay"></div>
 
-    <nav class="flex-1 p-5 space-y-4 fade-in">
-      <a href="#" class="flex items-center space-x-3 p-2 hover:bg-blue-800 rounded-lg transition">
-        <i data-lucide="home" class="w-5 h-5"></i><span>Beranda</span>
-      </a>
-      <a href="#" class="flex items-center space-x-3 p-2 hover:bg-blue-800 rounded-lg transition">
-        <i data-lucide="calendar" class="w-5 h-5"></i><span>Jadwal Kuliah</span>
-      </a>
-      <a href="#" class="flex items-center space-x-3 p-2 hover:bg-blue-800 rounded-lg transition">
-        <i data-lucide="clipboard-list" class="w-5 h-5"></i><span>Jadwal Ujian</span>
-      </a>
-      <a href="#" class="flex items-center space-x-3 p-2 hover:bg-blue-800 rounded-lg transition">
-        <i data-lucide="user-check" class="w-5 h-5"></i><span>Kehadiran</span>
-      </a>
-      <a href="#" class="flex items-center space-x-3 p-2 hover:bg-blue-800 rounded-lg transition">
-        <i data-lucide="file-text" class="w-5 h-5"></i><span>Kuesioner</span>
-      </a>
-    </nav>
-
-    <div class="border-t border-white/10 px-5 py-4 fade-in">
-      <a href="login.html" class="flex items-center space-x-2 text-blue-300 hover:text-white transition">
-        <i data-lucide="log-out" class="w-5 h-5"></i><span>Keluar</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- BACKDROP -->
-  <div id="backdrop" class="hidden fixed inset-0 bg-black/40 z-40"></div>
-
-  <!-- SCRIPT -->
-  <script>
-    lucide.createIcons();
-    const menuBtn = document.getElementById("menuBtn");
-    const drawer = document.getElementById("drawer");
-    const backdrop = document.getElementById("backdrop");
-    const dashboardPage = document.getElementById("dashboardPage");
-
-    function openDrawer() {
-      drawer.classList.remove("hidden", "drawer-exit");
-      drawer.classList.add("drawer-enter");
-      backdrop.classList.remove("hidden", "backdrop-exit");
-      backdrop.classList.add("backdrop-enter");
-    }
-
-    function closeDrawer() {
-      drawer.classList.remove("drawer-enter");
-      drawer.classList.add("drawer-exit");
-      backdrop.classList.remove("backdrop-enter");
-      backdrop.classList.add("backdrop-exit");
-      setTimeout(() => {
-        drawer.classList.add("hidden");
-        backdrop.classList.add("hidden");
-      }, 350);
-    }
-
-    menuBtn.addEventListener("click", openDrawer);
-    backdrop.addEventListener("click", closeDrawer);
-
-    // === QR SCAN ===
-    function onScanSuccess(decodedText) {
-      document.getElementById("qr-result").innerText = "✅ Kode Terdeteksi: " + decodedText;
-      
-      // Tampilkan halaman loading shimmer
-      document.getElementById("dashboardPage").classList.remove("hidden");
-
-      // Delay menuju halaman dashboard utama
-      setTimeout(() => {
-        window.location.href = "main-dashboard.html"; // halaman utama nanti
-      }, 2000);
-    }
-
-    const html5QrCode = new Html5Qrcode("qr-reader");
-    html5QrCode.start(
-      { facingMode: "environment" },
-      { fps: 10, qrbox: 250 },
-      onScanSuccess
-    );
-  </script>
+  <!-- 🔹 Urutan sangat penting: face-utils.js dulu -->
+  <script src="face-utils.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

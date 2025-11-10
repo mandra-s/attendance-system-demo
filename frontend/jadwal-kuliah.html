@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jadwal Kuliah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animasi masuk */
+    .fade {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Efek slide detail */
+    .slide {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, opacity 0.6s ease;
+      opacity: 0;
+    }
+    .slide.show {
+      max-height: 500px;
+      opacity: 1;
+    }
+
+    /* Efek ikon + → - */
+    .rotate {
+      transform: rotate(45deg);
+      transition: transform 0.3s ease;
+    }
+    .rotate-back {
+      transform: rotate(0);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-white flex flex-col min-h-screen items-center p-8 fade">
+
+  <!-- Header -->
+  <div class="absolute top-6 right-6 flex items-center">
+    <a href="dashboard.html" class="flex items-center hover:opacity-80 transition">
+      <img src="user.jpg" alt="User" class="w-12 h-12 rounded-full border-4 border-orange-500" />
+      <span class="ml-2 font-semibold text-gray-800">M. Rizki Alfiansyah</span>
+    </a>
+  </div>
+
+  <!-- Konten -->
+  <div class="mt-16 bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Jadwal Kuliah Semester 2025/1</h1>
+    <h2 class="text-xl font-semibold text-gray-700 mb-6 text-center">Jadwal Kuliah</h2>
+
+    <!-- Filter -->
+    <div class="flex justify-between mb-4">
+      <label>Show
+        <select class="border rounded px-2 py-1">
+          <option>10</option>
+          <option>25</option>
+          <option>50</option>
+        </select>
+        entries
+      </label>
+      <label>Search: <input type="text" class="border rounded px-2 py-1 ml-2"></label>
+    </div>
+
+    <!-- Tabel -->
+    <table class="w-full border rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="text-left py-2 px-4">Mata Kuliah</th>
+          <th class="text-left py-2 px-4">Kode</th>
+          <th class="text-left py-2 px-4">Hari</th>
+          <th class="text-left py-2 px-4">Jam</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr class="border-t hover:bg-orange-50 transition">
+          <td class="py-2 px-4 flex items-center gap-3">
+            <button id="icon-ELB303" onclick="toggleDetail('ELB321')" 
+              class="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-lg font-bold shadow-md transition">
+              +
+            </button>
+            Pemograman Antarmuka
+          </td>
+          <td class="py-2 px-4">ELB321</td>
+          <td class="py-2 px-4">Rabu</td>
+          <td class="py-2 px-4">13.00 - 15.50</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Detail Mata Kuliah -->
+    <div id="detail-container" class="slide mt-6 bg-gray-50 rounded-xl p-6 shadow-inner">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Detail Mata Kuliah</h3>
+      <div id="detail-content" class="text-gray-700 space-y-2"></div>
+    </div>
+  </div>
+
+  <script>
+    // Data simulasi
+    const data = {
+      "ELB321": {
+        nama: "Pemograman Antarmuka",
+        kelas: "AA",
+        hari: "Rabu",
+        jam: "13:00 - 15:50",
+        dosen: "Febrian Hadiatna",
+        ruang: "20-204",
+        jenis: "Kuliah"
+      }
+    };
+
+    function toggleDetail(kode) {
+      const container = document.getElementById("detail-container");
+      const content = document.getElementById("detail-content");
+      const icon = document.getElementById("icon-" + kode);
+
+      if (container.classList.contains("show")) {
+        container.classList.remove("show");
+        icon.textContent = "+";
+        icon.classList.remove("rotate");
+        icon.classList.add("rotate-back");
+        return;
+      }
+
+      const m = data[kode];
+      content.innerHTML = `
+        <p><strong>Kode:</strong> ${kode}</p>
+        <p><strong>Nama:</strong> ${m.nama}</p>
+        <p><strong>Kelas:</strong> ${m.kelas}</p>
+        <p><strong>Hari:</strong> ${m.hari}</p>
+        <p><strong>Jam:</strong> ${m.jam}</p>
+        <p><strong>Dosen:</strong> ${m.dosen}</p>
+        <p><strong>Ruang:</strong> ${m.ruang}</p>
+        <p><strong>Jenis:</strong> ${m.jenis}</p>
+      `;
+
+      container.classList.add("show");
+      icon.textContent = "–";
+      icon.classList.add("rotate");
+      icon.classList.remove("rotate-back");
+    }
+  </script>
+
+</body>
+</html>
